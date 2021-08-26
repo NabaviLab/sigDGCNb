@@ -44,8 +44,6 @@ from sklearn.neighbors import kneighbors_graph
 from sklearn.metrics import pairwise
 
 def buildGraphNN(X, neighborK):
-    #nbrs = NearestNeighbors(n_neighbors=10, algorithm='ball_tree').fit(X)
-    #distances, indices = nbrs.kneighbors(X)
     A = kneighbors_graph(X, neighborK, mode='connectivity', metric='cosine', include_self=True)
     return A
 
@@ -144,19 +142,11 @@ def train_dgc(dataset, lr, epochs, aeepochs, lambda1, pretrain_path, layer1, lay
     
  
     print(model)
-    # instantiate the object net of the class
-    #model.apply(weight_init)
-
-
     optimizer = Adam(model.parameters(), lr=lr)
 
     ###### KNN Graph
 
     adj = buildGraphNN(dataset.x, neighborK)
-
-#    adj = adj + adj.T.multiply(adj.T > adj) - adj.multiply(adj.T > adj)
-#    adj = utils.normalize(adj + sparse.eye(adj.shape[0]))
-    print(type(adj))
     adj = utils.normalize(adj)
     adjdense = torch.FloatTensor(adj.todense())   
     adj = utils.sparse_mx_to_torch_sparse_tensor(adj)
@@ -176,9 +166,7 @@ def train_dgc(dataset, lr, epochs, aeepochs, lambda1, pretrain_path, layer1, lay
         
         ######model.cluster_layer.data = torch.tensor(kmeans.cluster_centers_).to(device)
         eva(y, y_pred, 'kmeans')
-
-
-            
+        
     for epoch in range(epochs):
         if epoch % 30 == 0:
         # update_interval
