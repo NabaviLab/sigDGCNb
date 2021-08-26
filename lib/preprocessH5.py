@@ -156,13 +156,4 @@ def load_h5(filename,n_gene, sparsify = False, skip_exprs = False):
     
     return X, Y, count_X, size_factor, cluster_number
     
-'''
-Concretely, we first normalize the count matrix Yn×p
-through dividing each row by its row sum and multiplying
-it by the median of total expression values of all cells, and
-then we take a natural log transformation on data. 
-'''
-
-#numBin = 50
-#plt.hist(data.reshape(-1), bins=numBin)  # arguments are passed to np.histogram
      
